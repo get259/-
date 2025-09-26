@@ -5,10 +5,13 @@
   "main": "bazi_calculator.js",
   "scripts": {
     "test": "node bazi_calculator.js",
-    "test-qwen": "node qwen_client.js"
+    "test-qwen": "node qwen_client.js",
+    "test-tts": "node -e \"(async()=>{const {synthesizeSpeech}=require('./tts_client');const fs=require('fs');const r=await synthesizeSpeech({text:'道友好，贫道在此为你解疑。',voiceType:'qiniu_zh_male_ybxknjs',model:'tts',format:'mp3'});if(r.success){fs.writeFileSync('tts_sample.mp3',r.audioBuffer);console.log('ok: tts_sample.mp3');}else{console.error('fail:',r.error);}})()\"",
+    "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "express": "^4.19.2"
   },
   "keywords": [
     "八字",

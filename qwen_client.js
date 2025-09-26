@@ -4,12 +4,40 @@
  */
 
 const axios = require('axios');
+// 尝试加载环境变量：优先使用 dotenv；若未安装，则手动解析 .env
+(() => {
+    try {
+        // 可选依赖，不做强制安装
+        require('dotenv').config();
+    } catch (_) {
+        // 简单解析项目根目录下的 .env（KEY=VALUE，每行一对，忽略 # 注释）
+        try {
+            const fs = require('fs');
+            const path = require('path');
+            const envPath = path.resolve(__dirname, '.env');
+            if (fs.existsSync(envPath)) {
+                const content = fs.readFileSync(envPath, 'utf8');
+                content.split(/\r?\n/).forEach((line) => {
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed.startsWith('#')) return;
+                    const eqIndex = trimmed.indexOf('=');
+                    if (eqIndex === -1) return;
+                    const key = trimmed.slice(0, eqIndex).trim();
+                    const value = trimmed.slice(eqIndex + 1).trim();
+                    if (key && !(key in process.env)) {
+                        process.env[key] = value;
+                    }
+                });
+            }
+        } catch (_) {}
+    }
+})();
 
-// 七牛云API配置
+// 七牛云API配置（从环境变量读取，提供合理默认值；API Key 不提供默认）
 const QINIU_CONFIG = {
-    baseURL: 'https://openai.qiniu.com/v1',
-    model: 'qwen-turbo',
-    apiKey: 'sk-5a08fe9740e3d984e5c6b360058071aa0e3be0132c48d9f074e96514cfd4550a'
+    baseURL: process.env.QINIU_BASE_URL || 'https://openai.qiniu.com/v1',
+    model: process.env.QINIU_MODEL || 'qwen-turbo',
+    apiKey: process.env.QINIU_API_KEY || ''
 };
 
 /**
