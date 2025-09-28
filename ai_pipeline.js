@@ -43,7 +43,14 @@ async function analyzeWithOptionalTts(params) {
 
     const ttsRes = await synthesizeSpeech({ text, ...ttsOptions });
     if (!ttsRes.success) {
-        return { success: false, error: ttsRes.error };
+        // TTS失败时回退到文本模式，而不是完全失败
+        console.warn('TTS失败，回退到文本模式:', ttsRes.error);
+        return { 
+            success: true, 
+            text, 
+            prompt: result.prompt,
+            ttsError: ttsRes.error  // 保留错误信息供前端显示
+        };
     }
 
     return {
@@ -82,9 +89,29 @@ async function analyzeMarriageWithOptionalTts(params) {
         return { success: true, text, prompt: result.prompt };
     }
 
-    const ttsRes = await synthesizeSpeech({ text, ...ttsOptions });
+    let ttsRes = await synthesizeSpeech({ text, ...ttsOptions });
+    
+    // 如果女声音色失败，尝试使用男声作为备用
+    if (!ttsRes.success && ttsOptions.voiceType === 'qiniu_zh_female_xyqxxj') {
+        console.warn('红鸾天喜女声音色失败，尝试使用男声备用:', ttsRes.error);
+        const backupOptions = {
+            ...ttsOptions,
+            voiceType: 'qiniu_zh_male_ybxknjs',  // 备用男声
+            voiceName: '天乙贵人（备用）',
+            category: '传统音色'
+        };
+        ttsRes = await synthesizeSpeech({ text, ...backupOptions });
+    }
+    
     if (!ttsRes.success) {
-        return { success: false, error: ttsRes.error };
+        // TTS失败时回退到文本模式，而不是完全失败
+        console.warn('TTS失败，回退到文本模式:', ttsRes.error);
+        return { 
+            success: true, 
+            text, 
+            prompt: result.prompt,
+            ttsError: ttsRes.error  // 保留错误信息供前端显示
+        };
     }
 
     return {
@@ -125,7 +152,14 @@ async function analyzeFortuneWithOptionalTts(params) {
 
     const ttsRes = await synthesizeSpeech({ text, ...ttsOptions });
     if (!ttsRes.success) {
-        return { success: false, error: ttsRes.error };
+        // TTS失败时回退到文本模式，而不是完全失败
+        console.warn('TTS失败，回退到文本模式:', ttsRes.error);
+        return { 
+            success: true, 
+            text, 
+            prompt: result.prompt,
+            ttsError: ttsRes.error  // 保留错误信息供前端显示
+        };
     }
 
     return {
