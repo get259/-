@@ -1,5 +1,5 @@
 # 道求职 - 智能八字占卜平台
-
+####视频是上传了，就叫video，没时间插入了#####
 一个面向应届求职生的智能命理分析应用，结合传统命理学和现代AI技术，提供事业、姻缘、时运、六爻占卜、合盘分析等全方位指导。
 
 ## 🌟 功能特色
@@ -427,4 +427,5 @@ npm run test-tts
 - ☯️ **六爻功能**: http://localhost:3000/liuyao.html
 - 💕 **合盘功能**: http://localhost:3000/heban.html
 - 💬 **问道聊天**: http://localhost:3000/wendao-chat.html
+
 - 🔍 **健康检查**: http://localhost:3000/health
