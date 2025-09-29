@@ -1,5 +1,5 @@
 # 道求职 - 智能八字占卜平台
-####视频是上传了，就叫video，没时间插入了#####
+####视频是 https://www.bilibili.com/video/BV1s9nizyE3A/?share_source=copy_web&vd_source=4e09b72d2554c72cf539b8687d26f561#####
 一个面向应届求职生的智能命理分析应用，结合传统命理学和现代AI技术，提供事业、姻缘、时运、六爻占卜、合盘分析等全方位指导。
 
 ## 🌟 功能特色
@@ -429,3 +429,4 @@ npm run test-tts
 - 💬 **问道聊天**: http://localhost:3000/wendao-chat.html
 
 - 🔍 **健康检查**: http://localhost:3000/health
+
